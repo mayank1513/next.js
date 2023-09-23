@@ -9,6 +9,6 @@
     "next": "latest",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "sass": "1.26.3"
+    "sass": "1.66.1"
   }
 }
