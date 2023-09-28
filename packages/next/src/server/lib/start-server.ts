@@ -4,6 +4,7 @@ import '../require-hook'
 
 import type { IncomingMessage, ServerResponse } from 'http'
 import type { SelfSignedCertificate } from '../../lib/mkcert'
+import { type WorkerRequestHandler, type WorkerUpgradeHandler } from './types'
 
 import fs from 'fs'
 import path from 'path'
@@ -12,17 +13,12 @@ import https from 'https'
 import Watchpack from 'watchpack'
 import * as Log from '../../build/output/log'
 import setupDebug from 'next/dist/compiled/debug'
-import { getDebugPort } from './utils'
+import { RESTART_EXIT_CODE, getDebugPort } from './utils'
 import { formatHostname } from './format-hostname'
 import { initialize } from './router-server'
-import {
-  RESTART_EXIT_CODE,
-  type WorkerRequestHandler,
-  type WorkerUpgradeHandler,
-} from './setup-server-worker'
 import { checkIsNodeDebugging } from './is-node-debugging'
 import { CONFIG_FILES } from '../../shared/lib/constants'
-import chalk from '../../lib/chalk'
+import { bold, magenta } from '../../lib/picocolors'
 
 const debug = setupDebug('next:start-server')
 
@@ -73,7 +69,6 @@ export async function getRequestHandlers({
     dev: isDev,
     minimalMode,
     server,
-    workerType: 'router',
     isNodeDebugging: isNodeDebugging || false,
     keepAliveTimeout,
     experimentalTestProxy,
@@ -97,8 +92,8 @@ function logStartInfo({
   formatDurationText: string
 }) {
   Log.bootstrap(
-    chalk.bold(
-      chalk.hex('#ad7fa8')(
+    bold(
+      magenta(
         `${`${Log.prefixes.ready} Next.js`} ${process.env.__NEXT_VERSION}`
       )
     )
