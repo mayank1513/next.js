@@ -9,6 +9,6 @@
     "next": "latest",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "rosetta": "1.0.0"
+    "rosetta": "1.1.0"
   }
 }
